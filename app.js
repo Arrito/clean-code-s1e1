@@ -18,6 +18,7 @@ var completedTasksHolder=document.getElementById("completed-tasks");//completed-
 var createNewTaskElement=function(taskString){
 
     var listItem=document.createElement("li");
+    
 
     //input (checkbox)
     var checkBox=document.createElement("input");//checkbx
@@ -45,6 +46,7 @@ var createNewTaskElement=function(taskString){
 
     deleteButton.className="delete";
     deleteButtonImg.src='./remove.svg';
+    deleteButtonImg.alt = 'Delete task icon';
     deleteButton.appendChild(deleteButtonImg);
 
 
@@ -80,26 +82,27 @@ var editTask=function(){
     console.log("Change 'edit' to 'save'");
 
 
-    var listItem=this.parentNode;
+    var listItem = this.parentNode;
+    var editInput = listItem.querySelector('input[type=text]');
+    var label = listItem.querySelector("label");
+    var editBtn = listItem.querySelector(".edit");
+    var containsClass = listItem.classList.contains("edit-mode");
 
-    var editInput=listItem.querySelector('input[type=text]');
-    var label=listItem.querySelector("label");
-    var editBtn=listItem.querySelector(".edit");
-    var containsClass=listItem.classList.contains("editMode");
-    //If class of the parent is .editmode
-    if(containsClass){
-
-        //switch to .editmode
-        //label becomes the inputs value.
-        label.innerText=editInput.value;
-        editBtn.innerText="Edit";
-    }else{
-        editInput.value=label.innerText;
-        editBtn.innerText="Save";
+    // Если задача в режиме редактирования (edit-mode)
+    if (containsClass) {
+        label.innerText = editInput.value;  // Перезаписываем label значением из input
+        editBtn.innerText = "Edit";  // Меняем текст кнопки на "Edit"
+        editInput.style.display = 'none'; // Прячем поле ввода
+        label.style.display = 'block';  // Показываем метку
+    } else {
+        editInput.value = label.innerText;  // Присваиваем input значение метки
+        editBtn.innerText = "Save";  // Меняем текст кнопки на "Save"
+        editInput.style.display = 'block';  // Показываем поле ввода
+        label.style.display = 'none';  // Прячем метку
     }
 
-    //toggle .editmode on the parent.
-    listItem.classList.toggle("editMode");
+    // Переключаем режим редактирования (edit-mode)
+    listItem.classList.toggle("edit-mode");
 };
 
 
